@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #dif{
+            font-size: 25px;
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+        }
+        #title{
+            height: 200px;
+            width: 100%;
+            text-align: center;
+            line-height: 200px;
+            background-color: yellow;
+            font-size: 50px;
+        }
+        #time{
+            height: 500px;
+            width: 100%;
+            text-align: center;
+            line-height: 500px;
+            font-size: 250px;
+        }
+        #ctl{
+            height: 200px;
+            width: 100%;
+            text-align: center;
+            line-height: 200px;
+            font-size: 100px;
+        }
+        .btn{
+            height: 100px;
+            width: 50%;
+        }
+        #startbtn{
+            background-color: green;
+            font-size: 50px;
+        }
+        #endbtn{
+            background-color: red;
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    window.onload=function () {
+        var timeDiv = document.getElementById("time");
+        timeDiv.innerText="00.000";
+        var startTime ;
+        var v;
+        var startBtn = document.getElementById("startbtn");
+        var difDiv = document.getElementById("dif");
+
+        var endBtn = document.getElementById("endbtn");
+        endBtn.disabled=true;
+        function showTime(){
+            curTime = new Date().getTime();
+            s = parseInt((curTime - startTime) / 1000);
+            ms = (curTime - startTime) % 1000;
+            if(s < 10){
+                s = "0" + s;
+            }
+            if(ms < 100){
+                ms = "0" + ms;
+            }
+            if(ms < 10){
+                ms = "0" + ms;
+            }
+            timeDiv.innerText = s + "." + ms;
+        }
+        document.getElementById("startbtn").onclick=function () {
+            startTime = new Date().getTime();
+            v = setInterval(showTime,1);
+            this.disabled=true;
+            endBtn.disabled=false;
+            difDiv.innerText = "";
+        }
+        document.getElementById("endbtn").onclick=function () {
+            clearInterval(v);
+            this.disabled= true;
+            startBtn.disabled = false;
+            var dif = parseInt(Math.abs(10000 - (curTime - startTime)));
+            var ss = parseInt(dif / 1000);
+            var mss = parseInt(dif % 1000);
+            if(mss < 100){
+                mss = "0" + mss;
+            }
+            if(mss < 10){
+                mss = "0" + mss;
+            }
+            difDiv.innerText = "加油!" + "距离10:000只有" + ss + "." + mss;
+        }
+    }
+</script>
+<div id="title">十秒挑战</div>
+<div id="time" ></div>
+<div id="dif"></div>
+<div id="ctl"><span><input class="btn" type="button" id="startbtn" value="开始"></span><span><input class="btn" type="button" value="结束" id="endbtn"></span></div>
+</body>
+</html>
